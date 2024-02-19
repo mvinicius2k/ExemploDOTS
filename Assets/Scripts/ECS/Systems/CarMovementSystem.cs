@@ -25,6 +25,7 @@ public partial struct CarMovementSystem : ISystem
 
 }
 
+[BurstCompile]
 public partial struct CarMovementJob : IJobEntity
 {
     public float DeltaTime;
