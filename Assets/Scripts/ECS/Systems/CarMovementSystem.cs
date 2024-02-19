@@ -7,8 +7,6 @@ using UnityEngine;
 [BurstCompile]
 public partial struct CarMovementSystem : ISystem
 {
-
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
@@ -25,6 +23,4 @@ public partial struct CarMovementSystem : ISystem
         }
 
     }
-
-
 }
