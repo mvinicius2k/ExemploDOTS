@@ -13,14 +13,25 @@ public partial struct CarMovementSystem : ISystem
         if (Input.GetKey(KeyCode.W))
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
-            
-            foreach (var (carMovement, transform) in SystemAPI.Query<RefRO<CarMovement>, RefRW<LocalTransform>>())
+
+            new CarMovementJob
             {
-                transform.ValueRW.Rotation = quaternion.LookRotation(carMovement.ValueRO.Direction, math.up());
-                transform.ValueRW.Position += carMovement.ValueRO.Speed * deltaTime * carMovement.ValueRO.Direction;
-            }
+                DeltaTime = deltaTime
+            }.ScheduleParallel();
 
         }
 
+    }
+
+}
+
+public partial struct CarMovementJob : IJobEntity
+{
+    public float DeltaTime;
+
+    void Execute(in CarMovement carMovement, ref LocalTransform localTransform)
+    {
+        localTransform.Rotation = quaternion.LookRotation(carMovement.Direction, math.up());
+        localTransform.Position += carMovement.Speed * DeltaTime * carMovement.Direction;
     }
 }
